@@ -4,7 +4,7 @@ require 'pry-nav'
 RSpec.describe 'CarRental' do
 
 	context 'challenge spec' do
-		it 'outputs correct statement' do
+		fit 'outputs correct statement' do
 			# Arrange
 			saloon1 = Car.new('Audi A3', Car::SALOON)
 			suv1 = Car.new('BMW X1', Car::SUV)
@@ -17,6 +17,4 @@ RSpec.describe 'CarRental' do
 			expect(statement).to eq("Car rental record for Bill Simpson\nBMW X1,60\nAudi A3,20\nAmount owed is €80\nEarned bonus points: 3")
 		end
 	end
-	
-
 end
