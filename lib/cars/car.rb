@@ -1,15 +1,13 @@
 class Car
 
   POINTS_VALUE = 1
-  attr_reader :title, :price, :max_days, :additional_cost, :points_day_limit, :point_bonus
+  attr_reader :title, :price, :max_days, :additional_cost
 
-  def initialize(title, price, max_days: 0, additional_cost: 0, points_day_limit: 0, points_bonus: 1)
+  def initialize(title, price, max_days: 0, additional_cost: 0)
     @title = title
     @price = price
     @max_days = max_days
     @additional_cost = additional_cost
-    @points_day_limit = points_day_limit
-    @points_bonus = points_bonus
   end
 
   def calculate_total(days_rented)
@@ -18,8 +16,9 @@ class Car
     total + (days_rented - max_days) * additional_cost
   end
 
-  def apply_points(days_rented, points: 0)
-    points
+  # Don't apply any points if sublass has no method implemented
+  def apply_points(days_rented)
+    0
   end
 
 end

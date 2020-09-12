@@ -18,7 +18,7 @@ describe Driver do
 
   it 'returns a statement for a Driver with one rental' do
     statement_instance = spy(
-				document: "Car rental record for test_name\nBMW X1,1\nAmount owed is €1\nEarned bonus points: 1"
+        to_s: "Car rental record for test_name\nBMW X1,1\nAmount owed is €1\nEarned bonus points: 1"
 		)
 		statement = spy(new: statement_instance)
 		driver = Driver.new("test_name")
