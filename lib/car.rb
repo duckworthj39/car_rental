@@ -6,10 +6,9 @@ class Car
   attr_reader :title, :price, :offer
   attr_accessor :style
 
-  def initialize(title, style, price, offer: nil)
+  def initialize(title, style, price)
     @title = title
 		@style = style
 		@price = price
-		@offer = nil
   end
 end

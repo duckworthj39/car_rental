@@ -15,9 +15,10 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'driver'
-require 'statement_values'
+require 'statement'
 require 'rental'
 require 'car'
+require 'offer'
 require 'pry-nav'
 
 
