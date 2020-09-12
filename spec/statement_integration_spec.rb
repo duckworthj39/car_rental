@@ -1,13 +1,14 @@
-require 'car_rental'
+require 'spec_helper'
 require 'pry-nav'
 
 RSpec.describe 'CarRental' do
-
 	context 'challenge spec' do
 		fit 'outputs correct statement' do
 			# Arrange
-			saloon1 = Car.new('Audi A3', Car::SALOON)
-			suv1 = Car.new('BMW X1', Car::SUV)
+			saloon1 = Car.new('Audi A3', Car::SALOON, 20)
+			suv1 = Car.new('BMW X1', Car::SUV, 30)
+
+			
 			driver = Driver.new('Bill Simpson')
 			driver.add_rental(Rental.new(suv1, 2))  # rent this SUV for 2 days
 			driver.add_rental(Rental.new(saloon1, 2))

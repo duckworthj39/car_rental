@@ -1,4 +1,4 @@
-class Driver2
+class Driver
 	attr_accessor :rentals
 	attr_reader :driver_name
 
@@ -7,28 +7,24 @@ class Driver2
 		@rentals = rentals
 	end
 
-	def statement
-		rentals.each_with_object({}) do |rental, statement_content|
-			statement_content[:amount_owed] += statement_price(rental)
+	def add_rental(rental)
+    @rentals << rental
+  end
+
+	def fetch_statement(statement_values: StatementValues.new)
+		output = "Car rental record for #{@driver_name.to_s}\n"
+
+		totals = rentals.inject({total: 0, total_points: 0}) do |hash, rental|
+			car_total = statement_values.calculate_car_total(rental)
+			output += rental.car.title.to_s + "," + car_total.to_s + "\n"
+
+			hash[:total] += car_total
+			hash[:total_points] += statement_values.calculate_car_points(rental)
+			hash
 		end
-	end
 
-	def statement_price(rental)
-		base_price = rental.car.price * rental.days_rented
-		
-		offer_price = rental.car.offers.inject(0) do |sum, offer|
-			next if rental.days_rented <= offer.days_for_offer
-			days_in_offer = rental.days_rented - offer.days_for_offer
-			total_after_offer = rental.car.price - offer.price_reduction
-			sum + (days_in_offer * total_after_offer)
-		end
-
-		base_price + offer_price
-	end
-
-	private 
-
-	def calculate_offer(rental, offer)
-
+		output += "Amount owed is €" + "#{totals[:total].to_s}" + "\n"
+		output += "Earned bonus points: " + totals[:total_points].to_s
+		output
 	end
 end
