@@ -30,14 +30,6 @@ class Statement
 		end.to_json
 	end
 
-	def calculate_car_points(rentals, amount_owed)
-		rentals.inject(0) do |sum, rental|
-			sum -= POINTS_REDUCTION if amount_owed < 0
-			sum += POINTS_PER_RENTAL
-			sum + rental.car.apply_points(rental.days_rented)
-		end
-	end
-
 	private
 
 	def fetch_cars(rentals)
@@ -49,6 +41,14 @@ class Statement
 	def fetch_total_owed(cars)
 		cars.inject(0) do |sum, car|
 			sum += car[:total]
+		end
+	end
+
+	def calculate_car_points(rentals, amount_owed)
+		rentals.inject(0) do |sum, rental|
+			sum -= POINTS_REDUCTION if amount_owed < 0
+			sum += POINTS_PER_RENTAL
+			sum + rental.car.apply_points(rental.days_rented)
 		end
 	end
 end
