@@ -11,8 +11,13 @@ class Driver
     @rentals << rental
   end
 
-	def fetch_statement(offers, statement_klass: Statement)
-		statement = statement_klass.new(driver_name, rentals, offers: offers)
-		statement.document
+	def fetch_statement(statement_klass: Statement)
+		statement = statement_klass.new(driver_name, rentals)
+		statement.to_s
+	end
+
+  def fetch_json_statement(statement_klass: Statement)
+		statement = statement_klass.new(driver_name, rentals)
+		statement.as_json
 	end
 end

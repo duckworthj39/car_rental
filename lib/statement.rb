@@ -1,51 +1,49 @@
 class Statement
 
+  POINTS_REDUCTION = 10
+  POINTS_PER_RENTAL = 1
+
   attr_accessor :driver_name, :driver_cars, :driver_total, :driver_points
 
-  def initialize(driver_name, rentals, offers: [])
-		@driver_name = fetch_driver_name(driver_name)
-		@driver_cars = fetch_cars(rentals, offers)
+  def initialize(driver_name, rentals)
+		@driver_name = driver_name
+		@driver_cars = fetch_cars(rentals)
 		@driver_total = fetch_total_owed(driver_cars)
-		# @driver_points = driver_points
+		@driver_points = calculate_car_points(rentals, @driver_total)
 	end
 
-  def document
-		output = driver_name
+  def to_s
+		output = "Car rental record for #{driver_name.to_s}\n"
 		driver_cars.each do |car|
 			output += car[:title].to_s + "," + car[:total].to_s + "\n"
 		end
 		output += "Amount owed is €" + "#{driver_total.to_s}" + "\n"
+		output + "Earned bonus points: " + driver_points.to_s
 	end
 
-	def calculate_car_points(rental)
-		points_earned -= 10 if amount_owed < 0
-		points_earned += 1
+  def as_json
+		{}.tap do |hash|
+			hash[:driver_name] = driver_name
+			hash[:cars] = driver_cars
+			hash[:amount_owed] = driver_total
+			hash[:driver_points] = driver_points
+		end.to_json
+	end
 
-		if r.car.style == Car::SUV && r.days_rented > 1
-			bonus_points = bonus_points + 1
+	def calculate_car_points(rentals, amount_owed)
+		rentals.inject(0) do |sum, rental|
+			sum -= POINTS_REDUCTION if amount_owed < 0
+			sum += POINTS_PER_RENTAL
+			sum + rental.car.apply_points(rental.days_rented)
 		end
-		points_earned
 	end
 
 	private
 
-	def fetch_driver_name(driver_name)
-		"Car rental record for #{driver_name.to_s}\n"
-	end
-
-	def fetch_cars(rentals, offers)
+	def fetch_cars(rentals)
 		rentals.each_with_object([]) do |rental, cars|
-			car_total = rental.car.price * rental.days_rented
-			offer_to_apply = offers.select { |offer| offer.car_style == rental.car.style}.first
-			car_total += apply_offers(offer_to_apply, rental.days_rented, rental.car)
-			cars << { title: rental.car.title, total: car_total }
+			cars << { title: rental.car.title, total: rental.car.calculate_total(rental.days_rented) }
 		end
-	end
-
-  def apply_offers(offer, days_rented, car)
-		return 0 if offer.nil?
-		binding.pry
-		offer.calculate_offer(days_rented, car)
 	end
 
 	def fetch_total_owed(cars)

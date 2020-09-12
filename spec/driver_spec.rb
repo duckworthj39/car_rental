@@ -17,13 +17,13 @@ describe Driver do
 
 
   it 'returns a statement for a Driver with one rental' do
-		statement = spy(
-        document: "Car rental record for test_name\nBMW X1,1\nAmount owed is €1\nEarned bonus points: 1"
-    )
-
+    statement_instance = spy(
+				document: "Car rental record for test_name\nBMW X1,1\nAmount owed is €1\nEarned bonus points: 1"
+		)
+		statement = spy(new: statement_instance)
 		driver = Driver.new("test_name")
 
-		statement_output = driver.fetch_statement(statement: statement)
+		statement_output = driver.fetch_statement(statement_klass: statement)
 
 		expect(statement_output).to eq("Car rental record for test_name\nBMW X1,1\nAmount owed is €1\nEarned bonus points: 1")
 	end

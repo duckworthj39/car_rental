@@ -1,0 +1,3 @@
+class Saloon < Car
+
+end
