@@ -17,10 +17,10 @@
 require 'driver'
 require 'statement'
 require 'rental'
-# require 'car'
 require_relative '../lib/cars/car'
 require_relative '../lib/cars/suv'
 require_relative '../lib/cars/saloon'
+require_relative '../lib/cars/hatchback'
 require 'pry-nav'
 
 

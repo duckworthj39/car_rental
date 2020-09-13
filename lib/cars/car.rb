@@ -1,17 +1,18 @@
 class Car
 
   POINTS_VALUE = 1
-  attr_reader :title, :price, :max_days, :additional_cost
+  attr_reader :title, :base_price, :max_days, :additional_cost
 
-  def initialize(title, price, max_days: 0, additional_cost: 0)
+  def initialize(title, base_price, max_days: 0, additional_cost: 0)
     @title = title
-    @price = price
+    @base_price = base_price
     @max_days = max_days
     @additional_cost = additional_cost
   end
 
+  # A car has a base price unless it is above a certain amount of days
   def calculate_total(days_rented)
-    total = price
+    total = base_price
     return total unless days_rented > max_days
     total + (days_rented - max_days) * additional_cost
   end
