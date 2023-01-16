@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-ruby '2.6.6'
+ruby '2.7.6'
 
 group :development do
   gem 'pry'

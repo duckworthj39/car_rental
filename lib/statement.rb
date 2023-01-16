@@ -1,3 +1,5 @@
+require 'json'
+
 class Statement
 
   POINTS_REDUCTION = 10
